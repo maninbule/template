@@ -138,3 +138,4 @@ struct BigInt
 BigInt gcd(BigInt a,BigInt b){
     return b == zero? a:gcd(b,a%b);
 }
+
