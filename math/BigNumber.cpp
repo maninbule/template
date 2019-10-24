@@ -5,8 +5,8 @@
 # define _FOR(i, a, b) for(int i = a; i >= b; i--)
 struct BigInt
 {
-    static const int M = 1000;
-    int num[M + 10], len;
+    static const int M = 100010;
+    int num[M], len;
 
     BigInt(int x) {
         clean();
@@ -22,7 +22,7 @@ struct BigInt
     }
 
     void read(){
-        char str[M + 10];
+        char str[M];
         scanf("%s", str);
         len = strlen(str);
         FOR(i, 1, len)
