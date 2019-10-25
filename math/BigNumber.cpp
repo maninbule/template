@@ -1,10 +1,13 @@
-#define FOR(i,a,b) for(int i = a;i<=b;i++)
-#define _FOR(i,a,b) for(int i = a;i>=b;i--)
+#include <iostream>
+#include <stdio.h>
+#include <cstring>
+# define FOR(i, a, b) for(int i = a; i <= b; i++)
+# define _FOR(i, a, b) for(int i = a; i >= b; i--)
+
 struct BigInt
 {
-    static const int M = 100010;
-    
-    public: int num[M], len,sign = 0;
+    static const int M = 1000;
+    int num[M + 10], len;
 
     BigInt(int x) {
         clean();
@@ -20,7 +23,7 @@ struct BigInt
     }
 
     void read(){
-        char str[M];
+        char str[M + 10];
         scanf("%s", str);
         len = strlen(str);
         FOR(i, 1, len)
@@ -28,8 +31,9 @@ struct BigInt
     }
 
     void write(){
-        if(sign) printf("-");
-        _FOR(i, len, 1) printf("%d", num[i]);
+        _FOR(i, len, 1)
+            printf("%d", num[i]);
+        //puts("");
     }
 
     void itoBig(int x){
@@ -53,7 +57,7 @@ struct BigInt
     bool operator != (const BigInt &cmp) const { return cmp < *this || *this < cmp; }
     bool operator == (const BigInt &cmp) const { return !(cmp < *this || *this < cmp); }
 
-    BigInt operator + (const BigInt &A)  {
+    BigInt operator + (const BigInt &A) const {
         BigInt S;
         S.len = max(len, A.len);
         FOR(i, 1, S.len){
@@ -67,14 +71,11 @@ struct BigInt
         return S;
     }
 
-    BigInt operator - (const BigInt &A)  {
+    BigInt operator - (const BigInt &A) const {
         BigInt S;
         S.len = max(len, A.len);
-        bool tag = *this<A; 
-        S.sign = tag? 1:0;
         FOR(i, 1, S.len){
-            if(tag) S.num[i] += A.num[i] - num[i];
-            else S.num[i] += num[i] - A.num[i];
+            S.num[i] += num[i] - A.num[i];
             if(S.num[i] < 0){
                 S.num[i] += 10;
                 S.num[i + 1]--;
@@ -84,7 +85,7 @@ struct BigInt
         return S;
     }
 
-    BigInt operator * (const BigInt &A)  {
+    BigInt operator * (const BigInt &A) const {
         BigInt S;
         if((A.len == 1 && A.num[1] == 0) || (len == 1 && num[1] == 0)) return S;
         S.len = A.len + len - 1;
@@ -98,7 +99,7 @@ struct BigInt
         return S;
     }
 
-    BigInt operator / (const BigInt &A)  {
+    BigInt operator / (const BigInt &A) const {
         BigInt S;
         if((A.len == 1 && A.num[1] == 0) || (len == 1 && num[1] == 0)) return S;
         BigInt R, N;
@@ -125,7 +126,7 @@ struct BigInt
         return S;
     }
 
-    BigInt operator % (const BigInt &A)  {
+    BigInt operator % (const BigInt &A) const {
         BigInt S;
         BigInt P = *this / A;
         S = *this - P * A;
